@@ -2,6 +2,7 @@
 #include "TokenBucket.h"
 #include "LeakyBucket.h"
 #include "FixedWindowCounter.h"
+#include "slidingWindowCounter.h"
 using namespace std;
 int main() {
     cout << "Token Bucket Algorithm demo" << endl;
@@ -47,5 +48,25 @@ int main() {
     sleep_for(seconds(5));
     fc.allowRequest();
     fc.allowRequest();
+
+    //////////////////////////////////////////
+    cout << "\n\nSliding Window Counter Algorithm\n";
+    slidingWindowCounter sc(5, 10); // Allow 5 requests in a 10-second window
+
+    sc.allowRequest();
+    sleep_for(seconds(2));
+    sc.allowRequest();
+    sc.allowRequest();
+    sc.allowRequest();
+    sc.allowRequest();
+
+    // Simulate a request exceeding the limit
+    sc.allowRequest();
+
+    // Wait for some requests to expire from the window
+    sleep_for(seconds(8));
+    sc.allowRequest();
+
     return 0;
+
 }
